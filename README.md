@@ -23,10 +23,10 @@ Optimized for my setup, change to your needs :)
 ----------------------------------------------------------
 
 Leaf Blower Trading Bot:
-- PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
 - START_HERE.bat to start GUI 
 - F8::Start/Pause / F9::Exit
+- PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
   
 ClawMachine_Auto.ahk
-- AutoHotkey 2.0.19
 - F8::Start/Pause / F9::Exit
+- AutoHotkey 2.0.19

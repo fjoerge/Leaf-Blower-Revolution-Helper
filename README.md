@@ -1,14 +1,11 @@
 # Leaf-Blower-Revolution-Helper
 Small Helper Scripts &amp; co for Leaf Blower Revolution Idle Game - created with the help of https://www.perplexity.ai/
 
-
+----------------------------------------------------------
 
 ! USING SOMETHING FROM HERE IN SEASONS WILL MOST LIKELY GET YOU BANNED !
 
  Every Helper here is intended to be only used in solo mode 
-
-
-If needed feel free to translate it from German with ChatGPT, Perplexity etc. on your own
 
 ----------------------------------------------------------
 

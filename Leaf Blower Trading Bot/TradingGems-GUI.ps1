@@ -1,4 +1,4 @@
-﻿# TradingGems GUI Controller v1.4 - REBUILT
+# TradingGems GUI Controller v1.4 - REBUILT
 
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName PresentationCore
@@ -332,7 +332,7 @@ $xaml = @"
                                 </StackPanel>
                                 
                                 <StackPanel Grid.Column="2">
-                                    <TextBlock Text="High Value (10-13)" Style="{StaticResource StatLabel}"/>
+                                    <TextBlock Text="High Value (13+)" Style="{StaticResource StatLabel}"/>
                                     <TextBlock Name="txtHighValue" Text="0 (0%)" Style="{StaticResource StatValue}"/>
                                     <TextBlock Text="Success Rate" Style="{StaticResource StatLabel}" Margin="0,10,0,0"/>
                                     <TextBlock Name="txtSuccessRate" Text="0%" Style="{StaticResource StatValue}"/>
@@ -490,6 +490,8 @@ $script:stats = @{
     GemValue16Count = 0
     GemValue17Count = 0
     GemValue18Count = 0
+    GemValue19Count = 0
+    GemValue20Count = 0
     SuccessfulStarts = 0
     FailedStarts = 0
     StartAttempts = 0
@@ -595,7 +597,8 @@ function Update-Statistics {
 
         $highValueCount = $script:stats.GemValue13Count + $script:stats.GemValue14Count +
                           $script:stats.GemValue15Count + $script:stats.GemValue16Count +
-                          $script:stats.GemValue17Count + $script:stats.GemValue18Count
+                          $script:stats.GemValue17Count + $script:stats.GemValue18Count +
+						  $script:stats.GemValue19Count + $script:stats.GemValue20Count
         $highValuePercent = if ($script:stats.GemTrades -gt 0) {
             100.0 * $highValueCount / $script:stats.GemTrades
         } else { 0 }

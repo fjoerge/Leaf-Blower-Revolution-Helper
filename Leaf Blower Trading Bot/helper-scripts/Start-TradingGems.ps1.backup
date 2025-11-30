@@ -1,0 +1,88 @@
+﻿# TradingGems Launcher - VEREINFACHT
+# Version 1.3 - Bot lÃ¤uft UNVERÄNDERT
+
+$ErrorActionPreference = "Stop"
+
+# Pfade
+$scriptPath = $PSScriptRoot
+$botScript = Join-Path $scriptPath "TradingGems.v4.4.ps1"
+$guiScript = Join-Path $scriptPath "TradingGems-GUI.ps1"
+
+Write-Host "================================================" -ForegroundColor Cyan
+Write-Host "   TradingGems Bot Launcher v1.3" -ForegroundColor Cyan
+Write-Host "================================================" -ForegroundColor Cyan
+Write-Host ""
+
+# PrÃ¼fe ob Bot-Script existiert
+if (-not (Test-Path $botScript)) {
+    Write-Host "ERROR: Bot-Script nicht gefunden!" -ForegroundColor Red
+    Write-Host "Erwartet: $botScript" -ForegroundColor Yellow
+    Read-Host "Druecke Enter zum Beenden"
+    exit 1
+}
+
+# PrÃ¼fe ob GUI-Script existiert
+if (-not (Test-Path $guiScript)) {
+    Write-Host "ERROR: GUI-Script nicht gefunden!" -ForegroundColor Red
+    Write-Host "Erwartet: $guiScript" -ForegroundColor Yellow
+    Read-Host "Druecke Enter zum Beenden"
+    exit 1
+}
+
+Write-Host "[1/3] Starte Bot im Hintergrund (ORIGINAL)..." -ForegroundColor Green
+
+# Starte ORIGINAL-Bot minimiert
+$botProcess = Start-Process powershell.exe -ArgumentList @(
+    "-NoProfile",
+    "-ExecutionPolicy", "Bypass",
+    "-WindowStyle", "Minimized",
+    "-File", "`"$botScript`""
+) -PassThru
+
+Start-Sleep -Seconds 2
+
+if ($botProcess.HasExited) {
+    Write-Host "ERROR: Bot konnte nicht gestartet werden!" -ForegroundColor Red
+    Read-Host "Druecke Enter zum Beenden"
+    exit 1
+}
+
+Write-Host "[2/3] Bot erfolgreich gestartet (PID: $($botProcess.Id))" -ForegroundColor Green
+Write-Host "[3/3] Starte GUI..." -ForegroundColor Green
+Write-Host ""
+Write-Host "================================================" -ForegroundColor Cyan
+Write-Host "  Bot laeuft normal (ORIGINAL)" -ForegroundColor Green
+Write-Host "  GUI oefnet sich jetzt..." -ForegroundColor Yellow
+Write-Host "  Druecke F8 im Bot-Fenster zum Starten!" -ForegroundColor Yellow
+Write-Host "================================================" -ForegroundColor Cyan
+Write-Host ""
+
+Start-Sleep -Seconds 1
+
+# Starte GUI im aktuellen Fenster
+& $guiScript
+
+Write-Host ""
+Write-Host "GUI wurde geschlossen." -ForegroundColor Yellow
+Write-Host ""
+
+# Frage ob Bot auch beendet werden soll
+$response = Read-Host "Moechtest du auch den Bot beenden? (J/N)"
+
+if ($response -eq "J" -or $response -eq "j") {
+    if (-not $botProcess.HasExited) {
+        Write-Host "Beende Bot-Prozess..." -ForegroundColor Yellow
+        Stop-Process -Id $botProcess.Id -Force -ErrorAction SilentlyContinue
+        Write-Host "Bot wurde beendet." -ForegroundColor Green
+    }
+    else {
+        Write-Host "Bot ist bereits beendet." -ForegroundColor Gray
+    }
+}
+else {
+    Write-Host "Bot laeuft weiter (PID: $($botProcess.Id))" -ForegroundColor Cyan
+    Write-Host "Zum Beenden: Stop-Process -Id $($botProcess.Id)" -ForegroundColor Gray
+}
+
+Write-Host ""
+Write-Host "Launcher beendet." -ForegroundColor Cyan

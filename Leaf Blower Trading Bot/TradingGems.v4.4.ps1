@@ -758,7 +758,7 @@ function Show-StatsBlock {
 			  
     $lines += ("           : {0,18} | {1,18} | {2,18}" -f `
               ("19 Gems = " + $stats.GemValue19Count),
-              ("20 Gems = " + $stats.GemValue20Count),
+              ("20 Gems = " + $stats.GemValue20Count))
 
     return $lines
 }

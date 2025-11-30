@@ -11,4 +11,5 @@ If needed feel free to translate it from German with ChatGPT, Perplexity, ... on
 - Game Client x2206|y726 (Game Window Top Left)
 
 ! USING SOMETHING FROM HERE IN SEASONS WILL MOST LIKELY GET YOU BANNED !
+
 Every Helper here is only intended to be used in solo mode 

@@ -4,7 +4,8 @@ Created mostly with https://www.perplexity.ai/
 
 
 ! USING SOMETHING FROM HERE IN SEASONS WILL MOST LIKELY GET YOU BANNED !
- Every Helper here is only intended to be used in solo mode 
+
+ Every Helper here is intended to be only used in solo mode 
 
 
 Optimized for my setup, change to your needs :)

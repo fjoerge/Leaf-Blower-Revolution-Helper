@@ -4,6 +4,7 @@ GameTitle := "Leaf Blower Revolution"
 GameExe   := "game.exe"
 Running   := false
 
+; Hier anpassen für andere Farben
 ; Farben
 PumpkinColor := 0xFF9E13
 ClawColor    := 0x303754

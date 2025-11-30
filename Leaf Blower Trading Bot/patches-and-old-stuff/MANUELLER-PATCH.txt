@@ -1,0 +1,116 @@
+# =============================================================================
+# MANUELLER PATCH für TradingGems v4.2 - GUI Integration
+# =============================================================================
+#
+# SCHRITT 1: Öffne TradingGems.v4.2.ps1 in einem Text-Editor
+#
+# SCHRITT 2: Suche nach dieser Zeile (ca. Zeile 200-250):
+#   $script:StatsTopRow = $null
+#
+# SCHRITT 3: Füge DIREKT DAVOR (ÜBER der Zeile) folgenden Code ein:
+# =============================================================================
+
+# --- GUI Integration Start ---
+$script:guiStatsFile = Join-Path $PSScriptRoot "TradeStats.json"
+$script:guiConfigFile = Join-Path $PSScriptRoot "TradeConfig.json"
+$script:lastConfigCheck = [DateTime]::MinValue
+$script:statsExportCounter = 0
+
+function Export-GUIStats {
+    $statsData = @{
+        StartedTrades = $script:Stats.StartedTrades
+        RefreshCount = $script:Stats.RefreshCount
+        GemTrades = $script:Stats.GemTrades
+        BeerTrades = $script:Stats.BeerTrades
+        MulchTrades = $script:Stats.MulchTrades
+        CheeseTrades = $script:Stats.CheeseTrades
+        GoldLeafTrades = $script:Stats.GoldLeafTrades
+        CosmicLeafTrades = $script:Stats.CosmicLeafTrades
+        GemsTotal = $script:Stats.GemsTotal
+        GemValue1Count = $script:Stats.GemValue1Count
+        GemValue2Count = $script:Stats.GemValue2Count
+        GemValue3Count = $script:Stats.GemValue3Count
+        GemValue4Count = $script:Stats.GemValue4Count
+        GemValue5Count = $script:Stats.GemValue5Count
+        GemValue6Count = $script:Stats.GemValue6Count
+        SuccessfulStarts = $script:Stats.SuccessfulStarts
+        FailedStarts = $script:Stats.FailedStarts
+        StartAttempts = $script:Stats.StartAttempts
+        LastActiveSlots = $script:Stats.LastActiveSlots
+        ScriptStartTime = $script:Stats.ScriptStartTime.ToString("o")
+    }
+    
+    try {
+        $json = $statsData | ConvertTo-Json -Depth 10
+        [System.IO.File]::WriteAllText($script:guiStatsFile, $json, [System.Text.Encoding]::UTF8)
+        Write-Log "GUI-Stats exportiert" "DEBUG"
+    }
+    catch {
+        Write-Log "GUI-Stats Export Fehler: $_" "DEBUG"
+    }
+}
+
+function Load-GUIConfig {
+    if (-not (Test-Path $script:guiConfigFile)) {
+        return
+    }
+    
+    try {
+        $guiConfig = Get-Content $script:guiConfigFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        
+        # ItemPolicies updaten
+        if ($guiConfig.ItemPolicies.Gem) {
+            $ItemPolicies.Gem.Start = $guiConfig.ItemPolicies.Gem.Start
+            $ItemPolicies.Gem.MinValue = $guiConfig.ItemPolicies.Gem.MinValue
+        }
+        if ($guiConfig.ItemPolicies.Beer) { $ItemPolicies.Beer.Start = $guiConfig.ItemPolicies.Beer.Start }
+        if ($guiConfig.ItemPolicies.Mulch) { $ItemPolicies.Mulch.Start = $guiConfig.ItemPolicies.Mulch.Start }
+        if ($guiConfig.ItemPolicies.Cheese) { $ItemPolicies.Cheese.Start = $guiConfig.ItemPolicies.Cheese.Start }
+        if ($guiConfig.ItemPolicies.GoldLeaf) { $ItemPolicies.GoldLeaf.Start = $guiConfig.ItemPolicies.GoldLeaf.Start }
+        if ($guiConfig.ItemPolicies.CosmicLeaf) { $ItemPolicies.CosmicLeaf.Start = $guiConfig.ItemPolicies.CosmicLeaf.Start }
+        
+        # Config-Settings updaten
+        if ($guiConfig.CollectIntervalSeconds) { $config.CollectIntervalSeconds = $guiConfig.CollectIntervalSeconds }
+        if ($guiConfig.MaxTrades) { $config.MaxTrades = $guiConfig.MaxTrades }
+        if ($guiConfig.RefreshIntervalRowsFull) { $config.RefreshIntervalRowsFull = $guiConfig.RefreshIntervalRowsFull }
+        
+        Write-Log "GUI-Config geladen und angewendet" "INFO"
+    }
+    catch {
+        Write-Log "GUI-Config Fehler: $_" "DEBUG"
+    }
+}
+
+Write-Log "GUI-Integration geladen" "INFO"
+# --- GUI Integration Ende ---
+
+# =============================================================================
+# SCHRITT 4: Suche nach der Hauptschleife (ca. Zeile 1800-2000):
+#   while ($true) {
+#       ...
+#       Start-Sleep -Milliseconds $config.LoopDelayMs
+#   }
+#
+# SCHRITT 5: Füge DIREKT VOR "Start-Sleep -Milliseconds" folgende Zeilen ein:
+# =============================================================================
+
+        # --- GUI Stats Export (alle paar Durchläufe) ---
+        $script:statsExportCounter++
+        if ($script:statsExportCounter -ge 2) {
+            Export-GUIStats
+            $script:statsExportCounter = 0
+        }
+        
+        # --- GUI Config Check (alle 10 Sekunden) ---
+        if (((Get-Date) - $script:lastConfigCheck).TotalSeconds -gt 10) {
+            Load-GUIConfig
+            $script:lastConfigCheck = Get-Date
+        }
+
+# =============================================================================
+# FERTIG! Speichern und Bot neu starten.
+#
+# Die GUI sollte jetzt:
+# - Live-Stats alle ~2 Sekunden sehen
+# - Config-Änderungen alle 10 Sekunden übernehmen
+# =============================================================================

@@ -1,0 +1,174 @@
+# =============================================================================
+# MANUELLER PATCH für TradingGems v4.2 - GUI Integration
+# Version 2.0 - Angepasst für deine echte Hauptschleife
+# =============================================================================
+#
+# SCHRITT 1: Öffne TradingGems.v4.2.ps1 in einem Text-Editor (z.B. Notepad++)
+#
+# SCHRITT 2: Suche nach dieser Zeile (ca. Zeile 200-250):
+#   $script:StatsTopRow = $null
+#
+# SCHRITT 3: Füge DIREKT DAVOR (ÜBER der Zeile) folgenden Code ein:
+# =============================================================================
+
+# --- GUI Integration Start ---
+$script:guiStatsFile = Join-Path $PSScriptRoot "TradeStats.json"
+$script:guiConfigFile = Join-Path $PSScriptRoot "TradeConfig.json"
+$script:lastConfigCheck = [DateTime]::MinValue
+$script:statsExportCounter = 0
+
+function Export-GUIStats {
+    $statsData = @{
+        StartedTrades = $script:Stats.StartedTrades
+        RefreshCount = $script:Stats.RefreshCount
+        GemTrades = $script:Stats.GemTrades
+        BeerTrades = $script:Stats.BeerTrades
+        MulchTrades = $script:Stats.MulchTrades
+        CheeseTrades = $script:Stats.CheeseTrades
+        GoldLeafTrades = $script:Stats.GoldLeafTrades
+        CosmicLeafTrades = $script:Stats.CosmicLeafTrades
+        GemsTotal = $script:Stats.GemsTotal
+        GemValue1Count = $script:Stats.GemValue1Count
+        GemValue2Count = $script:Stats.GemValue2Count
+        GemValue3Count = $script:Stats.GemValue3Count
+        GemValue4Count = $script:Stats.GemValue4Count
+        GemValue5Count = $script:Stats.GemValue5Count
+        GemValue6Count = $script:Stats.GemValue6Count
+        SuccessfulStarts = $script:Stats.SuccessfulStarts
+        FailedStarts = $script:Stats.FailedStarts
+        StartAttempts = $script:Stats.StartAttempts
+        LastActiveSlots = $script:Stats.LastActiveSlots
+        ScriptStartTime = $script:Stats.ScriptStartTime.ToString("o")
+        IsRunning = $running
+    }
+    
+    try {
+        $json = $statsData | ConvertTo-Json -Depth 10
+        [System.IO.File]::WriteAllText($script:guiStatsFile, $json, [System.Text.Encoding]::UTF8)
+    }
+    catch {
+        # Fehler ignorieren
+    }
+}
+
+function Load-GUIConfig {
+    if (-not (Test-Path $script:guiConfigFile)) {
+        return
+    }
+    
+    try {
+        $guiConfig = Get-Content $script:guiConfigFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        
+        # ItemPolicies updaten
+        if ($guiConfig.ItemPolicies.Gem) {
+            $ItemPolicies.Gem.Start = $guiConfig.ItemPolicies.Gem.Start
+            $ItemPolicies.Gem.MinValue = $guiConfig.ItemPolicies.Gem.MinValue
+        }
+        if ($guiConfig.ItemPolicies.Beer) { $ItemPolicies.Beer.Start = $guiConfig.ItemPolicies.Beer.Start }
+        if ($guiConfig.ItemPolicies.Mulch) { $ItemPolicies.Mulch.Start = $guiConfig.ItemPolicies.Mulch.Start }
+        if ($guiConfig.ItemPolicies.Cheese) { $ItemPolicies.Cheese.Start = $guiConfig.ItemPolicies.Cheese.Start }
+        if ($guiConfig.ItemPolicies.GoldLeaf) { $ItemPolicies.GoldLeaf.Start = $guiConfig.ItemPolicies.GoldLeaf.Start }
+        if ($guiConfig.ItemPolicies.CosmicLeaf) { $ItemPolicies.CosmicLeaf.Start = $guiConfig.ItemPolicies.CosmicLeaf.Start }
+        
+        # Config-Settings updaten
+        if ($guiConfig.CollectIntervalSeconds) { $config.CollectIntervalSeconds = $guiConfig.CollectIntervalSeconds }
+        if ($guiConfig.MaxTrades) { $config.MaxTrades = $guiConfig.MaxTrades }
+        if ($guiConfig.RefreshIntervalRowsFull) { $config.RefreshIntervalRowsFull = $guiConfig.RefreshIntervalRowsFull }
+        
+        Write-Log "GUI-Config live geladen" "INFO"
+    }
+    catch {
+        # Fehler ignorieren
+    }
+}
+
+Write-Log "GUI-Integration geladen" "INFO"
+# --- GUI Integration Ende ---
+
+# =============================================================================
+# SCHRITT 4: Suche nach dem ENDE der Hauptschleife:
+#
+# Die Hauptschleife endet mit diesen Zeilen:
+#
+#    else {
+#        if ($activeSlotCount -lt $config.MaxTrades) {
+#            Write-Log "Global: Slots nicht voll -> nur Refresh zum schnellen Nachladen." "INFO"
+#            Invoke-RefreshOnly -RefreshX $refreshButtonX -RefreshY $refreshButtonY
+#        }
+#    }
+# }  <--- HIER ist das Ende der While-Schleife
+#
+# SCHRITT 5: Füge DIREKT VOR der schließenden Klammer "}" (Ende der While-Schleife)
+#            folgenden Code ein:
+# =============================================================================
+
+    # --- GUI Integration: Stats exportieren & Config laden ---
+    $script:statsExportCounter++
+    if ($script:statsExportCounter -ge 2) {
+        Export-GUIStats
+        $script:statsExportCounter = 0
+    }
+    
+    if (((Get-Date) - $script:lastConfigCheck).TotalSeconds -gt 10) {
+        Load-GUIConfig
+        $script:lastConfigCheck = Get-Date
+    }
+
+# =============================================================================
+# SCHRITT 6: Zusätzlich - Hook für Pause-Status
+#
+# Suche nach dieser Zeile (ca. Zeile 1550):
+#    # Pausiert: CPU schonen
+#    if (-not $running) {
+#        Start-Sleep -Milliseconds 50
+#        continue
+#    }
+#
+# Füge DIREKT VOR dem "continue" folgende Zeile ein:
+# =============================================================================
+
+        Export-GUIStats  # Stats auch im Pause-Modus exportieren
+
+# =============================================================================
+# FERTIG! 
+#
+# Dein Bot sollte jetzt:
+# - Alle ~2 Schleifendurchläufe Stats nach TradeStats.json schreiben
+# - Alle 10 Sekunden Config aus TradeConfig.json laden
+# - Status (IsRunning) korrekt setzen
+# - Auch im Pause-Modus Stats exportieren
+#
+# Speichern, Bot neu starten, und GUI sollte funktionieren!
+# =============================================================================
+
+# =============================================================================
+# ZUSAMMENFASSUNG DER ÄNDERUNGEN:
+# =============================================================================
+# 
+# 1. Funktionen ÜBER $script:StatsTopRow = $null eingefügt
+# 2. Hook VOR der schließenden } der While-Schleife eingefügt
+# 3. Zusätzlicher Export im Pause-Zustand
+#
+# Die komplette While-Schleife sieht dann am Ende so aus:
+#
+#    else {
+#        if ($activeSlotCount -lt $config.MaxTrades) {
+#            Write-Log "Global: Slots nicht voll -> nur Refresh zum schnellen Nachladen." "INFO"
+#            Invoke-RefreshOnly -RefreshX $refreshButtonX -RefreshY $refreshButtonY
+#        }
+#    }
+#    
+#    # --- GUI Integration: Stats exportieren & Config laden ---
+#    $script:statsExportCounter++
+#    if ($script:statsExportCounter -ge 2) {
+#        Export-GUIStats
+#        $script:statsExportCounter = 0
+#    }
+#    
+#    if (((Get-Date) - $script:lastConfigCheck).TotalSeconds -gt 10) {
+#        Load-GUIConfig
+#        $script:lastConfigCheck = Get-Date
+#    }
+# }  <--- Ende While-Schleife
+#
+# =============================================================================

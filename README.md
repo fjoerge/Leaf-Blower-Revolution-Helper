@@ -1,7 +1,8 @@
 # Leaf-Blower-Revolution-Helper
 Bots &amp; co for Leaf Blower Revolution Idle Game
+Created mostly with https://www.perplexity.ai/
 
-optimized for my setup.
+Optimized for my setup, change to your needs and use it as you want :)
 - Display 3440x1440
 - Game 1280x720
 - Game Screen x2198|y695 (Game Window Title Bar Top Left)

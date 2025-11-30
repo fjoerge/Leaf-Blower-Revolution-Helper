@@ -9,3 +9,6 @@ If needed feel free to translate it from German with ChatGPT, Perplexity, ... on
 - Game 1280x720
 - Game Screen x2198|y695 (Game Window Title Bar Top Left)
 - Game Client x2206|y726 (Game Window Top Left)
+
+! USING SOMETHING FROM HERE IN SEASONS WILL MOST LIKELY GET YOU BANNED !
+Every Helper here is only intended to be used in solo mode 

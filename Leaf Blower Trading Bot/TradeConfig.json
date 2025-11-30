@@ -1,0 +1,37 @@
+﻿{
+    "AutoCalibEnabled":  true,
+    "StatsGemScreenshotMode":  "UNKNOWN",
+    "RefreshIntervalRowsFull":  10,
+    "LogMode":  "STATS",
+    "CollectIntervalSeconds":  5,
+    "ItemPolicies":  {
+                         "Gem":  {
+                                     "Tolerance":  20,
+                                     "NeedsGemValue":  true,
+                                     "MinValue":  11,
+                                     "Start":  true
+                                 },
+                         "Cheese":  {
+                                        "NeedsGemValue":  false,
+                                        "Tolerance":  10,
+                                        "Start":  false
+                                    },
+                         "Mulch":  {
+                                       "NeedsGemValue":  false,
+                                       "Tolerance":  10,
+                                       "Start":  false
+                                   },
+                         "Beer":  {
+                                      "NeedsGemValue":  false,
+                                      "Tolerance":  15,
+                                      "Start":  false
+                                  },
+                         "Borb":  {
+                                      "NeedsGemValue":  false,
+                                      "Tolerance":  15,
+                                      "Start":  true
+                                  }
+                     },
+    "EnableGemStats":  true,
+    "MaxTrades":  9
+}

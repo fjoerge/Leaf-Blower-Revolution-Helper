@@ -19,3 +19,14 @@ Optimized for my setup, change to your needs :)
 - Game 1280x720
 - Game Screen x2198|y695 (Game Window Title Bar Top Left)
 - Game Client x2206|y726 (Game Window Top Left)
+
+----------------------------------------------------------
+
+Leaf Blower Trading Bot:
+- PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
+- START_HERE.bat to start GUI 
+- F8::Start/Pause / F9::Exit
+  
+ClawMachine_Auto.ahk
+- AutoHotkey 2.0.19
+- F8::Start/Pause / F9::Exit

@@ -1,5 +1,5 @@
 # Leaf-Blower-Revolution-Helper
-Small Helper Scripts &amp; co for Leaf Blower Revolution Idle Game - created mostly with https://www.perplexity.ai/
+Small Helper Scripts &amp; co for Leaf Blower Revolution Idle Game - created with the help of https://www.perplexity.ai/
 
 
 

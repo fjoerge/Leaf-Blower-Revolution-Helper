@@ -1,4 +1,4 @@
-﻿<#
+<#
 Leaf Blower Revolution - Trade Automation Version 4.4
 #>
 
@@ -263,6 +263,8 @@ $stats = [pscustomobject]@{
     GemValue16Count     = 0
     GemValue17Count     = 0
     GemValue18Count     = 0
+    GemValue19Count     = 0
+    GemValue20Count     = 0
 
     # neue Item-spezifische Trade-Zaehler
     BeerTrades         = 0
@@ -361,6 +363,8 @@ function Export-GUIStats {
         GemValue16Count = $script:Stats.GemValue16Count
         GemValue17Count = $script:Stats.GemValue17Count
         GemValue18Count = $script:Stats.GemValue18Count
+        GemValue19Count = $script:Stats.GemValue19Count
+        GemValue20Count = $script:Stats.GemValue20Count
         SuccessfulStarts = $script:Stats.SuccessfulStarts
         FailedStarts = $script:Stats.FailedStarts
         StartAttempts = $script:Stats.StartAttempts
@@ -751,6 +755,10 @@ function Show-StatsBlock {
               ("16 Gems = " + $stats.GemValue16Count),
               ("17 Gems = " + $stats.GemValue17Count),
               ("18 Gems = " + $stats.GemValue18Count))
+			  
+    $lines += ("           : {0,18} | {1,18} | {2,18}" -f `
+              ("19 Gems = " + $stats.GemValue19Count),
+              ("20 Gems = " + $stats.GemValue20Count),
 
     return $lines
 }
@@ -2025,6 +2033,8 @@ while ($true) {
                         16 { $stats.GemValue16Count++ }
                         17 { $stats.GemValue17Count++ }
                         18 { $stats.GemValue18Count++ }
+                        19 { $stats.GemValue19Count++ }
+                        20 { $stats.GemValue20Count++ }
                     }
                 }
             }

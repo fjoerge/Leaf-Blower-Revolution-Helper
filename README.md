@@ -22,10 +22,11 @@ Optimized for my setup, change to your needs :)
 ----------------------------------------------------------
 
 Leaf Blower Trading Bot:
+- Calibrate from Trade-Window: \helper-scripts\Calibrate-LBR.ps1 & Calibrate-from-Trading-Window.png
 - START_HERE.bat to start GUI 
 - F8::Start/Pause, F9::Exit
-- PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
+- Uses PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
   
 ClawMachine_Auto.ahk
 - F8::Start/Pause, F9::Exit
-- AutoHotkey 2.0.19
+- Uses AutoHotkey 2.0.19

@@ -22,9 +22,8 @@ Optimized for my setup, change to your needs :)
 ----------------------------------------------------------
 
 Leaf Blower Trading Bot:
-- Dynamic position scaling
-  > calibration can be done from Trade-Window:
-  > \helper-scripts\Calibrate-LBR.ps1 & Calibrate-from-Trading-Window.png
+- Dynamic position scaling. Calibration can be done from Trade-Window:
+  > see \helper-scripts\Calibrate-LBR.ps1 & Calibrate-from-Trading-Window.png
 - START_HERE.bat to start GUI 
 - F8::Start/Pause, F9::Exit
 - Uses PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19

@@ -27,6 +27,8 @@ Leaf Blower Trading Bot:
 - F8::Start/Pause, F9::Exit
 - Uses PowerShell, Tesseract-OCR 5.4.0, AutoHotkey 2.0.19
   
+----------------------------------------------------------
+
 ClawMachine_Auto.ahk
 - F8::Start/Pause, F9::Exit
 - Uses AutoHotkey 2.0.19

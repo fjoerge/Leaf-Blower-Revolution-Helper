@@ -1,5 +1,7 @@
 # Leaf-Blower-Revolution-Helper
-Small Helper Scripts &amp; co for Leaf Blower Revolution Idle Game - created with the help of https://www.perplexity.ai/
+Trading- & Claw Machine - Bot for Leaf Blower Revolution Idle Game - Maybe some other helpers in the future
+
+created with the help of https://www.perplexity.ai/
 
 ----------------------------------------------------------
 

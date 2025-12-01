@@ -256,7 +256,7 @@ $xaml = @"
                     
                     <GroupBox Header="🔧 Advanced">
                         <StackPanel>
-                            <CheckBox Name="chkAutoCalib" Content="Auto Calibration" IsChecked="True"/>
+                            <CheckBox Name="chkAutoCalib" Content="Recalibrate Y-spacing while running" IsChecked="True"/>
                             <CheckBox Name="chkEnableGemStats" Content="Enable Gem Stats" IsChecked="True"/>
                             <TextBlock Text="Screenshot Mode:" Margin="0,5,0,2"/>
                             <ComboBox Name="cmbScreenshotMode">

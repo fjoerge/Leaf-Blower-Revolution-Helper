@@ -5,9 +5,9 @@ created with the help of https://www.perplexity.ai/
 
 ----------------------------------------------------------
 
-! USING SOMETHING FROM HERE IN SEASONS WILL MOST LIKELY GET YOU BANNED !
+!!! Don't use any of this in seasons !!!
 
- Every Helper here is intended to be only used in solo mode 
+ Every Helper here is intended to be used in solo mode only
 
 ----------------------------------------------------------
 
